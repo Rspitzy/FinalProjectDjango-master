@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .pythonScripts import spider, text
+from .pythonScripts import spider
 from .models import Products
 import re
 

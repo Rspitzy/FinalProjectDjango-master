@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Product Search
+{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-5 text-center text-secondary text-uppercase mt-3">Product searched: {{ system }}</h1>
+        </div>
+    </div>
+    {% for product in product_dict %}
+        <div class="shadow p-3 mb-3 bg-body rounded product">
+            <div class="row">
+                <div class="col-lg-5 col-10">
+                    <a id="product_url_{{ product.product_index }}" href="{{ product.product_url }}"><img id="product_img_{{ product.product_index }}" src="{{ product.product_img }}"
+                                                             alt="{{ product.product_name }}"></a>
+                    <p class="my-1">
+                    </p>
+                </div>
+                <div class="col-lg-7 col-10">
+                    <div class="row">
+                        <a href="{{ product.product_url }}"><h6 id="product_name_{{ product.product_index }}" class="mb-1 ">{{ product.product_name }}</h6></a>
+                        <p id="product_price_{{ product.product_index }}" class="my-1 ">
+                            Price: {{ product.product_price }}
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="align-text-bottom">{{ product.product_rating }}</p>
+                    </div>
+                    <div class="row mt-5 align-text-bottom align-content-end">
+                        <form action="{% url 'add' %}" method="post" id="post-form">
+                            {% csrf_token %}
+                            <input type="text" id="product_price_point_{{ product.product_index }}" class="form-control" placeholder="#No decimals Example: 100 ">
+                            <label for="product_alert_{{ product.product_index }}">Alert when product price is lower than or equal to price point?</label><input type="checkbox" id="product_alert_{{ product.product_index }}">
+                            <button class="btn btn-primary button_test" type="submit" id="{{ product.product_index }}">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+{% endblock %}
+

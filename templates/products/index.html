@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Products
+{% endblock %}
+
+{% block body %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-3 text-center text-secondary text-uppercase mt-3">Products</h1>
+            <div class="row justify-content-center container">
+                <form action="{% url 'search' %}" method="post" id="systemForm">
+                    {% csrf_token %}
+                    <div class="input-group m-3">
+                        <input type="text" class="form-control" placeholder="Product name" form="systemForm" name="system">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% for product in products %}
+        <div class="shadow p-3 mb-3 bg-body rounded product">
+            <div class="row">
+                <div class="col-lg-5 col-10">
+                    <a href="{{ product.product_url }}"><img src="{{ product.product_img }}" alt="{{ product.product_name }}"></a>
+                </div>
+                <div class="col-lg-7 col-10">
+                    <div class="row">
+                        <a href="{{ product.product_url }}"><h6 class="mb-1 ">{{ product.product_name }}</h6></a>
+                        <p class="my-1 ">
+                            Price: ${{ product.price }}
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="align-text-bottom">Added to list: {{ product.created_at }}</p>
+                    </div>
+                    <div class="row mt-5 align-text-bottom align-content-end">
+                        <div class="col-lg-9">
+                            {% if product.alert == True %}
+                                {% if product.price_point == None %}
+                                {% else %}
+                                    <p>Alert you when price is ${{ product.price_point }} or lower</p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-3 ">
+                            <a href="{% url 'delete' product.id %}" class="btn btn-danger">
+                                <i class="fas fa-times"><span class="align-top"> Delete</span></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
